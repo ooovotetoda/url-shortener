@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # change to server IP
-      HOST: root@192.168.0.41
+      HOST: root@91.186.196.196
       DEPLOY_DIRECTORY: /root/apps/url-shortener
       CONFIG_PATH: /root/apps/url-shortener/config/prod.yaml
       ENV_FILE_PATH: /root/apps/url-shortener/config.env
