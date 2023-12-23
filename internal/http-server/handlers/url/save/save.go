@@ -31,6 +31,14 @@ type URLSaver interface {
 	CheckAliasExist(alias string) (bool, error)
 }
 
+// @Summary Суммирование двух чисел
+// @Description выполняет сложение двух чисел
+// @Tags example
+// @Accept  json
+// @Produce  json
+// @Param   num1     query    int     true        "Число 1"
+// @Param   num2     query    int     true        "Число 2"
+// @Router /url [get]
 func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		const op = "handlers.url.save.New"

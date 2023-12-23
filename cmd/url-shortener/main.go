@@ -3,9 +3,11 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"log/slog"
 	"net/http"
 	"os"
+	_ "url-shortener/docs"
 	"url-shortener/internal/config"
 	"url-shortener/internal/http-server/handlers/redirect"
 	del "url-shortener/internal/http-server/handlers/url/delete"
@@ -22,6 +24,12 @@ const (
 	envProd  = "prod"
 )
 
+// @title Example API
+// @version 1.0
+// @description This is a sample server.
+
+// @host localhost:8082
+// @BasePath /
 func main() {
 	cfg := config.MustLoad()
 
@@ -44,6 +52,8 @@ func main() {
 	router.Use(mwLogger.New(log))
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.URLFormat)
+
+	router.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	router.Route("/url", func(r chi.Router) {
 		r.Use(middleware.BasicAuth("url-shortener", map[string]string{
