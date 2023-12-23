@@ -1,4 +1,4 @@
-package sqlite
+package postgresql
 
 import (
 	"database/sql"
@@ -23,7 +23,7 @@ const (
 )
 
 func New(storagePath string) (*Storage, error) {
-	const op = "storage.sqlite.New"
+	const op = "storage.postgresql.New"
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
@@ -75,7 +75,7 @@ func New(storagePath string) (*Storage, error) {
 }
 
 func (s *Storage) SaveURL(urlToSave string, alias string) (int64, error) {
-	const op = "storage.sqlite.SaveURL"
+	const op = "storage.postgresql.SaveURL"
 
 	stmt, err := s.db.Prepare("INSERT INTO url (url, alias) VALUES ($1, $2) RETURNING id")
 	if err != nil {
@@ -95,7 +95,7 @@ func (s *Storage) SaveURL(urlToSave string, alias string) (int64, error) {
 }
 
 func (s *Storage) GetURL(alias string) (string, error) {
-	const op = "storage.sqlite.GetURL"
+	const op = "storage.postgresql.GetURL"
 
 	stmt, err := s.db.Prepare("SELECT url FROM url WHERE alias = $1")
 	if err != nil {
@@ -116,7 +116,7 @@ func (s *Storage) GetURL(alias string) (string, error) {
 }
 
 func (s *Storage) DeleteURL(alias string) error {
-	const op = "storage.sqlite.DeleteURL"
+	const op = "storage.postgresql.DeleteURL"
 
 	stmt, err := s.db.Prepare("DELETE FROM url WHERE alias =$1")
 	if err != nil {
@@ -132,7 +132,7 @@ func (s *Storage) DeleteURL(alias string) error {
 }
 
 func (s *Storage) CheckAliasExist(alias string) (bool, error) {
-	const op = "storage.sqlite.GetExistAlias"
+	const op = "storage.postgresql.GetExistAlias"
 
 	stmt, err := s.db.Prepare("SELECT alias FROM url")
 	if err != nil {
